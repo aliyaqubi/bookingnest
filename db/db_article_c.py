@@ -32,6 +32,3 @@ def get_article_c(db: Session, id: int):
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
             detail= f'Article with id {id} not found.')                
     return article_C
-
-#ih;lkkj
-
