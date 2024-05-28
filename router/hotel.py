@@ -20,21 +20,21 @@ def create_hotel(request: HotelBase,
     return db_hotel.create_hotel(db, request)
 
 
-##>>>  BookNest: read/retrieve hotels (all)
 
+##>>>  BookNest: Read/retrieve hotels (all)
 @router.get('/', response_model= List[HotelDisplay])
 def get_all_hotels(db: Session = Depends(get_db)):
     return db_hotel.get_all_hotels(db)
 
-# ##>>>  Howto: read/retrieve user (one)
-# @router.get('/{id}', response_model= UserDisplay)
-# def get_user(id: int, db: Session = Depends(get_db)):
-#     return db_user.get_user(db, id)
+##>>>  Howto: Read/retrieve hotels (get the hotels with one specific filter - here: id)
+@router.get('/{id}', response_model= HotelDisplay)
+def get_hotel(id: int, db: Session = Depends(get_db)):
+    return db_hotel.get_hotel(db, id)
 
-# ##>>>  Howto: read/retrieve user (more than one)
-# @router.get('/{id}/email', response_model= UserDisplay)
-# def get_more_user(id: int, email: str, db: Session = Depends(get_db)):
-#     return db_user.get_more_user(db, id, email)
+#>>>  Howto: Read/retrieve hotels (get the hotels with more than one filter - here: id & email)
+@router.get('/{id}/email', response_model= HotelDisplay)
+def get_more_hotel(id: int, email: str, db: Session = Depends(get_db)):
+    return db_hotel.get_more_hotel(db, id, email)
 
 
 ##>>>  BookNest: update hotels

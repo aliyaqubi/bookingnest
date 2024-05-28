@@ -81,3 +81,5 @@ def delete_customer(db: Session, id: int):
     db.delete(customer)
     db.commit()
     return 'ok'
+
+#test
