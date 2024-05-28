@@ -1,0 +1,101 @@
+# Python
+*.py[cod]
+__pycache__/
+*.so
+
+# Environment variables
+.env
+
+# Byte-compiled / optimized / DLL files
+*.py[cod]
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+eggs/
+parts/
+bin/
+var/
+sdist/
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Distribution / packaging
+.Python
+*.egg
+*.egg-info/
+dist/
+build/
+eggs/
+parts/
+bin/
+var/
+sdist/
+develop-eggs/
+.installed.cfg
+lib/
+lib64/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.cover
+*.log
+*.swp
+*.swo
+*.orig
+*.bak
+*.bak2
+*.test
+*.pytest_cache/
+
+# Test logs and reports
+coverage.xml
+*.cover
+.hypothesis/
+.tox/
+.nox/
+.pytest_cache/
+
+# MyPy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# pytype static type analyzer
+.pytype/
+
+# SQLAlchemy Migrations
+alembic/
+
+# Virtual Environment
+.env/
+.venv/
+ENV/
+env.bak/
+venv.bak/
+
+# FastAPI specific
+*.db
+instance/
+instance.db
+.instance/
+instance/*.db
+
+# Editor files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+*.iml
+
+# macOS
+.DS_Store
+
+# Linux
+*.~undo-tree~
