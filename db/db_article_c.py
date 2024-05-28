@@ -33,3 +33,5 @@ def get_article_c(db: Session, id: int):
             detail= f'Article with id {id} not found.')                
     return article_C
 
+#ih;lkkj
+
