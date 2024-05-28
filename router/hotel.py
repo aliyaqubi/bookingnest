@@ -49,5 +49,3 @@ def update_hotel(id: int, request: HotelBase, db: Session = Depends(get_db)):
 @router.delete('/{id}')           ##>>>change to .delete in class with Jurgen
 def delete_hotel(id: int, db: Session = Depends(get_db)):
     return db_hotel.delete_hotel(db, id)
-
-#test
