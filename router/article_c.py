@@ -4,6 +4,7 @@ from schemas import ArticleCBase, ArticleCDisplay
 from sqlalchemy.orm import Session
 from db.database import get_db
 from db import db_article_c
+from auth.oauth2 import oauth2_scheme
 
 ##>>> Whatis: create a router for articles-customer
 router = APIRouter(       
@@ -22,5 +23,5 @@ def create_article_c(request: ArticleCBase,
 
 ##>>> Whatis: router for reading/retrieving articles-customer (one)
 @router.get('/{id}', response_model= ArticleCDisplay)
-def get_article_c(id: int, db: Session = Depends(get_db)):
+def get_article_c(id: int, db: Session = Depends(get_db), token: str = Depends(oauth2_scheme)):   #> secure the endpoint
     return db_article_c.get_article_c(db, id)

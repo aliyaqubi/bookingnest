@@ -4,8 +4,10 @@ from fastapi.exceptions import HTTPException
 from exceptions import StoryException
 from router import customer
 from router import hotel
+from router import product_c
 from router import article_c
 from router import article_h
+from auth import authentication
 from db import models
 from db.database import engine
 
@@ -13,6 +15,8 @@ from db.database import engine
 app = FastAPI()
 app.include_router(customer.router)
 app.include_router(article_c.router)
+app.include_router(authentication.router)
+app.include_router(product_c.router)
 app.include_router(hotel.router)
 app.include_router(article_h.router)
 
