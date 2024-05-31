@@ -7,12 +7,14 @@ from router import hotel
 from router import product_c
 from router import article_c
 from router import article_h
+from router import admin
 from auth import authentication
 from db import models
 from db.database import engine
 
 
 app = FastAPI()
+app.include_router(admin.router)
 app.include_router(customer.router)
 app.include_router(article_c.router)
 app.include_router(authentication.router)
@@ -39,28 +41,6 @@ def story_exception_handler(request: Request, exc: StoryException):   #>>> exc:e
 models.Base.metadata.create_all(engine) 
 ##>>Note :if something change in structure of tables, delete <fastapi-practice.db> 
 ##        and run the server again.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 #from router import blog_get
 #from router import blog_post

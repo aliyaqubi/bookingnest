@@ -3,7 +3,23 @@ from sqlalchemy.sql.schema import ForeignKey
 from sqlalchemy.sql.sqltypes import Integer, String, Boolean
 from db.database import Base
 from sqlalchemy import Column
+from sqlalchemy import Update
 
+##   Admin  ===============================================================================
+
+##>>> BookNest: admin Model
+class Dbadmin(Base):                 
+    __tablename__ = 'admin'
+    id = Column(Integer, primary_key=True, index=True)
+    firstname = Column(String)
+    secondname  = Column(String)
+    username = Column(String)
+    password = Column(String)
+    email = Column(String)
+    phone = Column(String)  #???
+    adress = Column(String)
+    nationality = Column(String)
+    age = Column(Integer)
 
 ##   Customer  ===============================================================================
 
