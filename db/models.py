@@ -1,8 +1,9 @@
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql.schema import ForeignKey
-from sqlalchemy.sql.sqltypes import Integer, String, Boolean
+from sqlalchemy.sql.sqltypes import Integer, String, Boolean, Date
 from db.database import Base
 from sqlalchemy import Column
+from datetime import date
 from sqlalchemy import Update
 
 ##   Admin  ===============================================================================
@@ -32,11 +33,12 @@ class DbCustomer(Base):
     username = Column(String)
     password = Column(String)
     email = Column(String)
-    phone = Column(String)  #???
+    phone = Column(String)  
     adress = Column(String)
     nationality = Column(String)
-    age = Column(Integer)  #???
+    age = Column(Integer)  
     items_c = relationship('DbArticleC', back_populates='customer')
+    items_book = relationship('DbBooking', back_populates='customer')
 
 ##>>> BookNest: Article-Customer Model (Articles that be crated by customer)
 class DbArticleC(Base):
@@ -45,6 +47,7 @@ class DbArticleC(Base):
     title = Column(String)
     content = Column(String)
     published = Column(Boolean)
+    rating = Column(Integer)
     customer_id = Column(Integer, ForeignKey('customers.id'))   
     ##>>> ForeignKey customers for create relationship between articles & customers (It links two table together)
     customer = relationship('DbCustomer', back_populates= 'items_c')
@@ -57,17 +60,19 @@ class DbHotel(Base):
     __tablename__ = 'hotels'
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String)
-    manager  = Column(String)  #???
+    manager  = Column(String)  
     username = Column(String)
     password = Column(String)
     email = Column(String)
-    phone = Column(String) #???
+    phone = Column(String)
     adress = Column(String)
     country = Column(String)
     city = Column(String) 
     rooms = Column(Integer) 
-    star = Column(Integer)  #???
+    star = Column(Integer)  
     items_h = relationship('DbArticleH', back_populates='hotel') 
+#    items_room = relationship('DbRoom', back_populates='hotel')
+    items_book = relationship('DbBooking', back_populates='hotel')
 
 
 ##>>> BookNest: Article-Hotel Model (Articles that be crated by hotel)
@@ -82,6 +87,32 @@ class DbArticleH(Base):
     hotel = relationship('DbHotel', back_populates= 'items_h')
 
 
+##>>> BookNest: Room Model
+# class DbRoom(Base):                 
+#     __tablename__ = 'rooms'
+#     id = Column(Integer, primary_key=True, index=True)
+#     room_number = Column(Integer)
+#     room_size = Column(Integer)
+#     room_beds = Column(Integer)
+#     room_type = Column(String) 
+#     room_amenities = Column(String) 
+#     hotel_id = Column(Integer, ForeignKey('hotels.id'))
+#     hotel = relationship('DbHotel', back_populates= 'items_room')
+#     items_book = relationship('DbBooking', back_populates='room') 
+     
+
+##>>> BookNest: Booking Model
+class DbBooking(Base):                 
+    __tablename__ = 'booking'
+    id = Column(Integer, primary_key=True, index=True)
+    Check_in = Column(Date)
+    Check_out = Column(Date)
+    customer_id = Column(Integer, ForeignKey('customers.id'))
+    hotel_id = Column(Integer, ForeignKey('hotels.id'))
+#    room_id = Column(Integer, ForeignKey('rooms.id'))
+    customer = relationship('DbCustomer', back_populates= 'items_book') 
+    hotel = relationship('DbHotel', back_populates= 'items_book')
+#    room = relationship('DbRoom', back_populates= 'items_book')  
 
 
 

@@ -28,12 +28,19 @@ def create_hotel(db: Session, request: HotelBase):   ##>>> Howto: create new hot
 
 
 ##>>>  BookNest: Read/retrieve hotels (all)
-def get_all_hotels(db: Session):
-    hotel = db.query(DbHotel).all()
-    if not hotel:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
-            detail= f'Hotel with id {id} not found.') 
-    return hotel
+def get_all_hotels(db: Session, city: str, country: str, rooms: int):
+    hotelQuery = db.query(DbHotel)
+    
+    if(city != None):
+        hotelQuery = hotelQuery.filter(DbHotel.city.contains(city))
+    
+    if(country != None):
+        hotelQuery = hotelQuery.filter(DbHotel.country == country)
+    
+    if(rooms != None):
+        hotelQuery = hotelQuery.filter(DbHotel.rooms == rooms)
+    
+    return hotelQuery.all()
 
 ##>>>  Howto: Read/retrieve hotels (get the hotels with one specific filter - here: id)
 def get_hotel(db: Session, id: int):
@@ -53,24 +60,42 @@ def get_more_hotel(db: Session, id: int, email: str):
 
 
 ##>>>  BookNest: update hotels
+##>>>  Note: There are two kinds of updating way:
+##>       1. using update methode by: hotel.update({ DbHotel.name: request.name, ... }) without .first() in didfinition of hotel
+##>       2. assigning the new values directly to the hotel instance's attributes.(ex:hotel.name= request.name) + .first() in didfinition of hotel
+##>    In db_customer.py the first way is used, and in db_hotel.py second way. (The second way is the correct way to handle updates. ???)
+
 def update_hotel(db: Session, id: int, request: HotelBase):
     hotel = db.query(DbHotel).filter(DbHotel.id == id).first()
     if not hotel:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
-            detail= f'Hotel with id {id} not found.') 
-    hotel.update({
-        DbHotel.name: request.name,
-        DbHotel.manager: request.manager,
-        DbHotel.username: request.username,
-        DbHotel.password: Hash.bcrypt(request.password),
-        DbHotel.email: request.email,
-        DbHotel.phone: request.phone, 
-        DbHotel.adress: request.adress,
-        DbHotel.country: request.country,
-        DbHotel.city: request.city, 
-        DbHotel.rooms: request.rooms,
-        DbHotel.star: request.star   
-    })
+            detail= f'Hotel with id {id} not found.')
+    hotel.name= request.name
+    hotel.manager= request.manager
+    hotel.username= request.username
+    hotel.password= Hash.bcrypt(request.password)
+    hotel.email= request.email
+    hotel.phone= request.phone 
+    hotel.adress= request.adress
+    hotel.country= request.country
+    hotel.city= request.city 
+    hotel.rooms= request.rooms
+    hotel.star= request.star   
+    
+    # hotel.update({
+    #     DbHotel.name: request.name,
+    #     DbHotel.manager: request.manager,
+    #     DbHotel.username: request.username,
+    #     DbHotel.password: Hash.bcrypt(request.password),
+    #     DbHotel.email: request.email,
+    #     DbHotel.phone: request.phone, 
+    #     DbHotel.adress: request.adress,
+    #     DbHotel.country: request.country,
+    #     DbHotel.city: request.city, 
+    #     DbHotel.rooms: request.rooms,
+    #     DbHotel.star: request.star   
+    # })
+
     db.commit()
     return 'ok'
 
