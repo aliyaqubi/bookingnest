@@ -83,6 +83,41 @@ class CustomerDisplay(BaseModel):
     class Config():
         orm_mode = True
 
+#================================ADMIN=============================================
+##>>> BookNest: class for the 'admin' 
+class admin(BaseModel):
+    id: int
+    username: str
+    class Config():
+        orm_mode = True   
+
+
+##>>> BookNest: Class for data that comes from admin
+class adminBase(BaseModel):
+    firstname: str
+    secondname: str
+    username: str
+    password: str
+    email: str
+    phone: str   # ???
+    adress: str
+    nationality: str
+    age: int
+
+##>>> BookNest: Class for data-display that the system send back to admin
+class adminDisplay(BaseModel):
+    firstname: str
+    secondname: str
+    username: str
+    email: str
+    phone: str   # ???
+    adress: str
+    nationality: str
+    age: int
+    class Config():
+        orm_mode = True
+#=============================================================================================
+
 
 ##> Block 3: Article from customer  =========================================================== 
  

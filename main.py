@@ -3,6 +3,7 @@ from fastapi.responses import JSONResponse, PlainTextResponse
 from fastapi.exceptions import HTTPException
 from exceptions import StoryException
 from router import customer, hotel, product_c, article_c, article_h
+from router import admin
 from auth import authentication
 from db import models
 from db.database import engine
@@ -12,6 +13,7 @@ from fastapi.middleware.cors import CORSMiddleware
 #> Block 1
 app = FastAPI()
 app.include_router(authentication.router)
+app.include_router(admin.router)
 app.include_router(customer.router)
 app.include_router(article_c.router)
 app.include_router(hotel.router)
@@ -53,28 +55,6 @@ app.add_middleware(
     allow_methods = ['*'],
     allow_headers = ['*']
 )
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 #from router import blog_get
 #from router import blog_post
