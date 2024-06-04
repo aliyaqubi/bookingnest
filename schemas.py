@@ -1,10 +1,18 @@
 from pydantic import BaseModel
 from typing import List
+from datetime import date
 
-##   Customer  ===============================================================================
+##> Block 5:  ===============================================================================
 
-##>>> BookNest: class for the [ArticleC] inside the CustomerDisplay (what goes into CustomerDisplay)
-##>>> This construction is not what we send or receive from user when we create the article.
+##> Whatis: class for the 'customer' inside the ArticleCDisplay & BookingDisplay 
+class Customer(BaseModel):
+    id: int
+    username: str
+    class Config():
+        orm_mode = True   
+
+##> Whatis: class for the ArticleC inside the CustomerDisplay (what goes into CustomerDisplay)
+##> This construction is not what we send or receive from user when we create the article.
 class ArticleC(BaseModel):
     title: str
     content: str
@@ -12,62 +20,21 @@ class ArticleC(BaseModel):
     class Config():
         orm_mode = True   
 
-##>>> BookNest: class for the 'customer' inside the ArticleCDisplay (what goes into ArticleCDisplay)
-class Customer(BaseModel):
+##> Whatis: class for the Booking inside the CustomerDisplay & HotelDisplat (what goes into CustomerDisplay)
+class Booking(BaseModel):
+    check_in: date
+    check_out: date 
+    class Config():
+        orm_mode = True  
+
+##> Whatis: class for the 'hotel' inside the ArticleHDisplay (what goes into ArticleCDisplay)
+class Hotel(BaseModel):
     id: int
     username: str
     class Config():
-        orm_mode = True   
+        orm_mode = True 
 
-
-##>>> BookNest: Class for data that comes from customer
-class CustomerBase(BaseModel):
-    firstname: str
-    secondname: str
-    username: str
-    password: str
-    email: str
-    phone: str   # ???
-    adress: str
-    nationality: str
-    age: int
-
-##>>> BookNest: Class for data-display that the system send back to customer
-class CustomerDisplay(BaseModel):
-    firstname: str
-    secondname: str
-    username: str
-    email: str
-    phone: str   # ???
-    adress: str
-    nationality: str
-    age: int
-    items: list[ArticleC] = []  ##>>> ArticleC in here goes back to class: ArticleC
-    class Config():
-        orm_mode = True
-
-
-##>>> BookNest: Class for Article that comes from customer 
-class ArticleCBase(BaseModel):
-    title: str
-    content: str
-    published: bool
-    creator_id_c: int
-
-
-##>>> BookNest: Class for Article that system send back to customer (structure of data-display)
-class ArticleCDisplay(BaseModel):
-    title: str
-    content: str
-    published: bool
-    customer: Customer            ##>>> customer in here goes back to class: Customer
-    class Config():
-        orm_mode = True
-
-
-##   Hotel  ===============================================================================
-
-##>>> BookNest: class for the [ArticleH] inside the HotelDisplay (what goes into HotelDisplay)
+##> Whatis: class for the [ArticleH] inside the HotelDisplay (what goes into HotelDisplay)
 class ArticleH(BaseModel):
     title: str
     content: str
@@ -75,47 +42,112 @@ class ArticleH(BaseModel):
     class Config():
         orm_mode = True   
 
-##>>> BookNest: class for the 'hotel' inside the ArticleHDisplay (what goes into ArticleCDisplay)
-class Hotel(BaseModel):
-    id: int
-    username: str
+##> Whatis: class for the [ArticleH] inside the HotelDisplay (what goes into HotelDisplay)
+class Room(BaseModel):
+    room_number: int
+    roon_size: int
+    room_beds: int
+    room_type: str
+    room_amenities: str 
     class Config():
-        orm_mode = True   
+        orm_mode = True 
+
+
+##> Block 1: class: CustomerBase  ===========================================================         
+
+##> Whatis: Class for data that comes from customer
+class CustomerBase(BaseModel):
+    firstname: str
+    secondname: str
+    username: str
+    password: str
+    email: str
+    phone: str  
+    adress: str
+    nationality: str
+    age: int
+
+##> Whatis: Class for data-display that the system send back to customer
+class CustomerDisplay(BaseModel):
+    id: int
+    firstname: str
+    secondname: str
+    username: str
+    email: str
+    phone: str   
+    adress: str
+    nationality: str
+    age: int
+    items: list[ArticleC] = []  ##>>> in this line ArticleC goes back to class: ArticleC
+    items_booking: list[Booking] = []  ##>>> in this line Booking goes back to class: Booking
+    class Config():
+        orm_mode = True
+
+
+##> Block 3: Article from customer  =========================================================== 
+ 
+##> Whatis: Class for Article that comes from customer 
+class ArticleCBase(BaseModel):
+    title: str
+    content: str
+    published: bool
+    rating: int
+    creator_id_c: int
+
+
+##> Whatis: Class for Article that system send back to customer (structure of data-display)
+class ArticleCDisplay(BaseModel):
+    title: str
+    content: str
+    published: bool
+    rating: int
+    customer: Customer            ##>>> in this line customer goes back to class: Customer
+    class Config():
+        orm_mode = True
 
 
 
-##>>> BookNest: Class for data that comes from hotel
+
+
+
+##> Block 2: class: HotelBase  ===========================================================   
+
+##> Whatis: Class for data that comes from hotel
 class HotelBase(BaseModel):
     name: str
     manager: str
     username: str
     password: str
     email: str
-    phone: str   # ???
+    phone: str   
     adress: str
     country: str
     city: str
     rooms: int
     star: int
 
-##>>> BookNest: Class for data-display that the system send back to hotel
+##> Whatis: Class for data-display that the system send back to hotel
 class HotelDisplay(BaseModel):
     name: str
     manager: str 
     username: str
     email: str
-    phone: str   # ???
+    phone: str  
     adress: str
     country: str
     city: str
     rooms: int
     star: int
-    items: list[ArticleH] = []  ##>>> ArticleH in here goes back to class: ArticleH
+    items: list[ArticleH] = []  ##>>> in this line ArticleH goes back to class: ArticleH
+ #   items_rooms: list[Room] = []  ##>>> in this line Room goes back to class: Room
+ #   items_booking: list[Booking] = []  ##>>> in this line Booking goes back to class: Booking
     class Config():
         orm_mode = True 
 
 
-##>>> BookNest: Class for Article that comes from hotel 
+##> Block 4: Article from hotel  =========================================================== 
+
+##> Whatis: Class for Article that comes from hotel 
 class ArticleHBase(BaseModel):
     title: str
     content: str
@@ -123,17 +155,55 @@ class ArticleHBase(BaseModel):
     creator_id_h: int
 
 
-##>>> BookNest: Class for Article that system send back to hotel (structure of data-display)
+##> Whatis: Class for Article that system send back to hotel (structure of data-display)
 class ArticleHDisplay(BaseModel):
     title: str
     content: str
     published: bool
-    hotel: Hotel            ##>>> hotel in here goes back to class: Customer
+    hotel: Hotel            ##>>> in this line hotel goes back to class: Hotel
     class Config():
         orm_mode = True
 
+##> Block 7: class: RoomBase  ===========================================================   
+
+##> Whatis: Class for Rooms that related to hotel 
+class RoomBase(BaseModel):
+    room_number: int
+    roon_size: int
+    room_beds: int
+    room_type: str
+    room_amenities: str 
+    creator_id: int
 
 
+##> Whatis: Class for Rooms that system send back to hotel (structure of data-display)
+class RoomDisplay(BaseModel):
+    room_number: int
+    roon_size: int
+    room_beds: int
+    room_type: str
+    room_amenities: str 
+    hotel: Hotel            ##>>> in this line hotel goes back to class: Hotel
+    class Config():
+        orm_mode = True        
+
+
+##> Block 8: class: BookingBase  ===========================================================   
+
+##> Whatis: Class for Booking 
+class BookingBase(BaseModel):
+    check_in: date
+    check_out: date 
+    creator_id: int
+
+
+##> Whatis: Class for Booking that system send back (structure of data-display)
+class BookingDisplay(BaseModel):
+    check_in: date
+    check_out: date 
+    Customer: Customer            ##>>> in this line customer goes back to class: Customer
+    class Config():
+        orm_mode = True        
 
 
 

@@ -34,13 +34,21 @@ def get_all_customers(db: Session):
             detail= f'Customer with id {id} not found.') 
     return customer
 
-##>>>  Howto: Read/retrieve customers (get the customers with one specific filter - here: id)
-def get_customer(db: Session, id: int):
-    customer = db.query(DbCustomer).filter(DbCustomer.id == id).first()
+##>>>  Howto: Read/retrieve customers by username (get the customers with one specific filter - here: username) {we need it in oauth2.py}
+def get_customer_by_username(db: Session, username: str):
+    customer = db.query(DbCustomer).filter(DbCustomer.username == username).first()
     if not customer:
        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
-           detail= f'Customer with id {id} not found.') 
+           detail= f'Customer with username {username} not found.') 
     return customer
+
+# ##>>>  Howto: Read/retrieve customers (get the customers with one specific filter - here: id) {Deactivated bcz of adding get_customer_by_username}
+# def get_customer(db: Session, id: int):
+#     customer = db.query(DbCustomer).filter(DbCustomer.id == id).first()
+#     if not customer:
+#        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
+#            detail= f'Customer with id {id} not found.') 
+#     return customer
 
 ##>>>  Howto: Read/retrieve customers (get the customers with more than one filter - here: id & email)
 def get_more_customer(db: Session, id: int, email: str):
@@ -52,8 +60,13 @@ def get_more_customer(db: Session, id: int, email: str):
 
 
 ##>>>  BookNest: update customers
+##>>>  Note: There are two kinds of updating way:
+##>       1. using update methode by: hotel.update({ DbHotel.name: request.name, ... }) without .first() in didfinition of hotel
+##>       2. assigning the new values directly to the hotel instance's attributes.(ex:hotel.name= request.name) + .first() in didfinition of hotel
+##>    In db_customer.py the first way is used, and in db_hotel.py second way. (The second way is the correct way to handle updates. ???)
+
 def update_customer(db: Session, id: int, request: CustomerBase):
-    customer = db.query(DbCustomer).filter(DbCustomer.id == id).first()
+    customer = db.query(DbCustomer).filter(DbCustomer.id == id)   #> .first() is deleted
     if not customer:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
             detail= f'Customer with id {id} not found.') 
@@ -82,4 +95,4 @@ def delete_customer(db: Session, id: int):
     db.commit()
     return 'ok'
 
-#test
+

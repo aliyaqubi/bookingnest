@@ -17,6 +17,7 @@ def create_article_c(db: Session, request: ArticleCBase):
         title = request.title,
         content = request.content,
         published = request.published,
+        rating = request.rating,
         customer_id = request.creator_id_c
     )
     db.add(new_article_c)            
