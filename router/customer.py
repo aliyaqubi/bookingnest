@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session
 from db.database import get_db
 from db import db_customer
 from auth.oauth2 import oauth2_scheme, get_current_customer
-
+import shutil
 ##>>>  BookNest: create a router for customers
 router = APIRouter(       
     prefix= '/customer',
@@ -70,6 +70,10 @@ def delete_customer(id: int,
 
 @router.post('/UploadID')
 def get_upload_id(upload_file: UploadFile = File(...)):
+    path= f"files/{upload_file.filename}"
+    with open(path, 'w+b') as buffer:
+        shutil.copyfileobj(upload_file.file, buffer)
     return{
-        'filename': upload_file.filename
+        'filename': path,
+        'type': upload_file.content_type
     }
