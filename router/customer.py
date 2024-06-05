@@ -1,5 +1,5 @@
 from typing import List
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, File, UploadFile
 from schemas import CustomerBase, CustomerDisplay
 from sqlalchemy.orm import Session
 from db.database import get_db
@@ -67,3 +67,9 @@ def delete_customer(id: int,
                     current_customer: CustomerBase = Depends(get_current_customer)           #>>> forWhat: to add Authorization to secure it
                     ):
     return db_customer.delete_customer(db, id)
+
+@router.post('/UploadID')
+def get_upload_id(upload_file: UploadFile = File(...)):
+    return{
+        'filename': upload_file.filename
+    }
