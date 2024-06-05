@@ -9,7 +9,7 @@ router = APIRouter(
     tags= ['product']    
 )
 
-products = ['rooms', 'laundry', 'pick/drop service']
+products = ['a', 'b', 'c']
 
 
 #> Block 6: create product

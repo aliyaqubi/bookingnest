@@ -105,8 +105,8 @@ class DbArticleH(Base):
 class DbBooking(Base):                 
     __tablename__ = 'booking'
     id = Column(Integer, primary_key=True, index=True)
-    Check_in = Column(Date)
-    Check_out = Column(Date)
+    check_in = Column(Date)
+    check_out = Column(Date)
     customer_id = Column(Integer, ForeignKey('customers.id'))
     hotel_id = Column(Integer, ForeignKey('hotels.id'))
 #    room_id = Column(Integer, ForeignKey('rooms.id'))
