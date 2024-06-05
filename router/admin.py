@@ -4,6 +4,7 @@ from schemas import adminBase, adminDisplay
 from sqlalchemy.orm import Session
 from db.database import get_db
 from db import db_admin
+from fastapi.responses import FileResponse
 
 ##>>>  BookNest: create a router for admin
 router = APIRouter(       
@@ -48,3 +49,9 @@ def update_admin(id: int, request: adminBase, db: Session = Depends(get_db)):
 @router.delete('/{id}')           ##>>>change to .delete in class with Jurgen
 def delete_admin(id: int, db: Session = Depends(get_db)):
    return db_admin.delete_admin(db, id)
+
+## admin can download the file (id) that is uploaded by customer
+@router.get('/download/{name}', response_class=FileResponse)
+def get_file(name: str):
+    path= f'files/{name}'
+    return path
