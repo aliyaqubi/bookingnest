@@ -2,7 +2,7 @@ from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse, PlainTextResponse
 from fastapi.exceptions import HTTPException
 from exceptions import StoryException
-from router import customer, hotel, product_c, article_c, article_h
+from router import customer, hotel, product_c, article_c, article_h, booking
 from router import admin
 from auth import authentication
 from db import models
@@ -20,6 +20,7 @@ app.include_router(article_c.router)
 app.include_router(hotel.router)
 app.include_router(article_h.router)
 app.include_router(product_c.router)
+app.include_router(booking.router)
 
 
 #> Block 2
