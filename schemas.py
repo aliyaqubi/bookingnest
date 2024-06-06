@@ -46,15 +46,15 @@ class Booking(BaseModel):
         orm_mode = True  
 
 
-##> Whatis: class for the 'Room' inside the CustomerDisplay & HotelDisplay & BookingDisplay
-class Room(BaseModel):
-    room_number: int
-    roon_size: int
-    room_beds: int
-    room_type: str
-    room_amenities: str 
-    class Config():
-        orm_mode = True 
+# ##> Whatis: class for the 'Room' inside the CustomerDisplay & HotelDisplay & BookingDisplay
+# class Room(BaseModel):
+#     room_number: int
+#     roon_size: int
+#     room_beds: int
+#     room_type: str
+#     room_amenities: str 
+#     class Config():
+#         orm_mode = True 
 
 
 ##> Block 1: class CustomerBase (data that comes from customer)  ===========================================         
@@ -69,6 +69,7 @@ class CustomerBase(BaseModel):
     adress: str
     nationality: str
     age: int
+    #booking_id: int
 
 ##> Whatis: Class for data-display that the system send back to customer
 class CustomerDisplay(BaseModel):
@@ -84,6 +85,7 @@ class CustomerDisplay(BaseModel):
     items: list[ArticleC] = []  ##>>> in this line ArticleC goes back to class: ArticleC
 #   items_rooms: list[Room] = []  ##>>> in this line Room goes back to class: Room
     items_booking: list[Booking] = []  ##>>> in this line Booking goes back to class: Booking
+    #booking: Booking
     class Config():
         orm_mode = True
 
@@ -103,6 +105,7 @@ class HotelBase(BaseModel):
     city: str
     rooms: int
     star: int
+    #booking_id: int
 
 ##> Whatis: Class for data-display that the system send back to hotel
 class HotelDisplay(BaseModel):
@@ -119,6 +122,7 @@ class HotelDisplay(BaseModel):
     items: list[ArticleH] = []  ##>>> in this line ArticleH goes back to class: ArticleH
  #   items_rooms: list[Room] = []  ##>>> in this line Room goes back to class: Room
     items_booking: list[Booking] = []  ##>>> in this line Booking goes back to class: Booking
+    #booking: Booking
     class Config():
         orm_mode = True 
 
@@ -132,7 +136,7 @@ class ArticleCBase(BaseModel):
     content: str
     published: bool
     rating: int
-    creator_id_c: int
+    customer_id: int
 
 
 ##> Whatis: Class for Article that system send back to customer (structure of data-display)
@@ -174,6 +178,7 @@ class BookingBase(BaseModel):
     check_out: date 
     customer_id: int
     hotel_id: int
+    #room_id: int
 
 
 ##> Whatis: Class for Booking that system send back (structure of data-display)

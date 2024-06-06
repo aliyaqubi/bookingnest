@@ -23,7 +23,7 @@ def create_article_c(request: ArticleCBase,
                 db: Session = Depends(get_db), 
                 current_customer: DbCustomer = Depends(get_current_customer)           #>>> forWhat: to add Authorization to secure it
                 ):
-    request.creator_id_c = current_customer.id
+    request.customer_id = current_customer.id
     return db_article_c.create_article_c(db, request)
 
 

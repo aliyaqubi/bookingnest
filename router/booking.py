@@ -22,3 +22,20 @@ def book_hotel(booking: BookingBase,
                 ):
     #request.creator_id_c = current_customer.id
     return db_booking.book_hotel(db, booking)
+
+
+##> Block 4: Read/retrieve/get all bookings
+@router.get('/') #, response_model= List[BookingDisplay])
+def get_all_bookings(db: Session = Depends(get_db)
+                      #current_customer: CustomerBase = Depends(get_current_customer)           #>>> forWhat: to add Authorization to secure it
+                      ):
+    return db_booking.get_all_bookings(db)
+
+
+##> Block 3: delete booking
+@router.delete('/{id}')           
+def delete_booking(id: int, 
+                    db: Session = Depends(get_db),
+                    #current_customer: CustomerBase = Depends(get_current_customer)           #>>> forWhat: to add Authorization to secure it
+                    ):
+    return db_booking.delete_booking(db, id)

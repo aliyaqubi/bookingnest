@@ -23,8 +23,8 @@ def create_hotel(request: HotelBase,
 
 ##>>>  BookNest: Read/retrieve hotels (all)
 @router.get('/', response_model= List[HotelDisplay])
-def get_all_hotels(rooms:int, country: str = None, city: str = None, db: Session = Depends(get_db)):
-    return db_hotel.get_all_hotels(db, city, country, rooms)
+def get_all_hotels(star:int = None, country: str = None, city: str = None, db: Session = Depends(get_db)):
+    return db_hotel.get_all_hotels(db, city, country, star)
 
 ##>>>  Howto: Read/retrieve hotels (get the hotels with one specific filter - here: id)
 @router.get('/{id}', response_model= HotelDisplay)
