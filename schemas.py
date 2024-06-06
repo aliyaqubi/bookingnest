@@ -136,7 +136,7 @@ class ArticleCBase(BaseModel):
     content: str
     published: bool
     rating: int
-    creator_id_c: int
+    customer_id: int
 
 
 ##> Whatis: Class for Article that system send back to customer (structure of data-display)

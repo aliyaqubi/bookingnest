@@ -28,7 +28,7 @@ def create_hotel(db: Session, request: HotelBase):   ##>>> Howto: create new hot
 
 
 ##>>>  BookNest: Read/retrieve hotels (all)
-def get_all_hotels(db: Session, city: str, country: str, rooms: int):
+def get_all_hotels(db: Session, city: str, country: str, star: int):
     hotelQuery = db.query(DbHotel)
     
     if(city != None):
@@ -37,8 +37,8 @@ def get_all_hotels(db: Session, city: str, country: str, rooms: int):
     if(country != None):
         hotelQuery = hotelQuery.filter(DbHotel.country == country)
     
-    if(rooms != None):
-        hotelQuery = hotelQuery.filter(DbHotel.rooms == rooms)
+    if(star != None):
+        hotelQuery = hotelQuery.filter(DbHotel.star == star)
     
     return hotelQuery.all()
 

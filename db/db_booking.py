@@ -3,6 +3,8 @@ from pydantic import BaseModel
 from sqlalchemy.orm.session import Session
 from schemas import BookingBase
 from db.models import DbBooking
+from fastapi import HTTPException, status
+
 
 # class BookingRequest(BaseModel):
 #     hotel_id: int
@@ -24,3 +26,22 @@ def book_hotel(db: Session, booking: BookingBase): #= Depends(get_db)):
     db.commit()
     db.refresh(new_booking)
     return new_booking
+
+
+##> Block 3: Rea/retrieve/get all bookings
+def get_all_bookings(db: Session):
+    booking = db.query(DbBooking).all()
+    if not booking:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
+            detail= f'Booking with id {id} not found.') 
+    return booking
+
+##> Block 2: delete book-hotel
+def delete_booking(db: Session, id: int):
+    booking = db.query(DbBooking).filter(DbBooking.id == id).first()
+    if not booking:
+       raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
+           detail= f'Booking with id {id} not found.') 
+    db.delete(booking)
+    db.commit()
+    return 'ok'
