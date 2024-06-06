@@ -42,13 +42,13 @@ def get_customer_by_username(db: Session, username: str):
            detail= f'Customer with username {username} not found.') 
     return customer
 
-##>>>  Howto: Read/retrieve customers (get the customers with one specific filter - here: id) {Deactivated bcz of adding get_customer_by_username}
-def get_customer(db: Session, id: int):
-    customer = db.query(DbCustomer).filter(DbCustomer.id == id).first()
-    if not customer:
-       raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
-           detail= f'Customer with id {id} not found.') 
-    return customer
+# ##>>>  Howto: Read/retrieve customers (get the customers with one specific filter - here: id) {Deactivated bcz of adding get_customer_by_username}
+# def get_customer(db: Session, id: int):
+#     customer = db.query(DbCustomer).filter(DbCustomer.id == id).first()
+#     if not customer:
+#        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
+#            detail= f'Customer with id {id} not found.') 
+#     return customer
 
 
 ##>>>  Howto: Read/retrieve customers (get the customers with more than one filter - here: id & email)

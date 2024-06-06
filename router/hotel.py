@@ -1,9 +1,10 @@
 from typing import List
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, File, UploadFile
 from schemas import HotelBase, HotelDisplay
 from sqlalchemy.orm import Session
 from db.database import get_db
 from db import db_hotel
+import shutil
 
 ##>>>  Whatis: create a router for hotels
 router = APIRouter(       
@@ -49,3 +50,16 @@ def update_hotel(id: int, request: HotelBase, db: Session = Depends(get_db)):
 @router.delete('/{id}')           ##>>>change to .delete in class with Jurgen
 def delete_hotel(id: int, db: Session = Depends(get_db)):
     return db_hotel.delete_hotel(db, id)
+
+
+#Hotel owner can upload a Pic of his hotel
+@router.post('/Pics')
+def get_upload_pic(id:int, upload_file: UploadFile = File(...)):
+    path= f"files/{upload_file.filename}"
+    with open(path, 'w+b') as buffer:
+        shutil.copyfileobj(upload_file.file, buffer)
+    return{
+        'id': id,
+        'filename': path,
+        'type': upload_file.content_type
+    }
