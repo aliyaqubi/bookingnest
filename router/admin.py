@@ -26,7 +26,10 @@ def get_all_admin(db: Session = Depends(get_db)):
 
 ##>>>  Howto: Read/retrieve admins (get the customers with one specific filter - here: id)
 @router.get('/{id}', response_model= adminDisplay)
-def get_admin(id: int, db: Session = Depends(get_db)):
+def get_admin(id: int, db: Session = Depends(get_db)
+            #   ,
+            #     current_admin: adminBase = Depends(get_current_admin)
+              ):
     return db_admin.get_admin(db, id)
 
 ##>>>  Howto: Read/retrieve admin (get the customers with more than one filter - here: id & email)

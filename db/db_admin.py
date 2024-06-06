@@ -35,11 +35,11 @@ def get_all_admin(db: Session):
     return admin
 
 ##>>>  Howto: Read/retrieve admin (get the admin with one specific filter - here: id)
-def get_admin(db: Session, id: int):
-    admin = db.query(Dbadmin).filter(Dbadmin.id == id).first()
+def get_admin(db: Session, username: str):
+    admin = db.query(Dbadmin).filter(Dbadmin.username == username).first()
     if not admin:                                                               ## ATIQ ??? WHY NDERLINE
        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
-           detail= f'admin with id {id} not found.') 
+           detail= f'admin with username {username} not found.') 
     return admin
 
 ##>>>  Howto: Read/retrieve admin (get the admin with more than one filter - here: id & email)

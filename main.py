@@ -4,6 +4,7 @@ from fastapi.exceptions import HTTPException
 from exceptions import StoryException
 from router import customer, hotel, product_c, article_c, article_h, booking
 from router import admin
+from auth.oauth2 import oauth2_scheme
 from auth import authentication
 from db import models
 from db.database import engine

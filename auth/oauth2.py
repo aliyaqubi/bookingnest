@@ -40,6 +40,7 @@ def get_current_customer(token: str = Depends(oauth2_scheme), db: Session = Depe
     detail = 'Could not validate the credentials of the customer',
     headers={'WWW-Authenticate': 'Bearer'}                           #> Standard HTTP exception if we can not authorize a user.
   )
+
   try:                                                               #> The try block is used to wrap code that may raise exceptions. 
     payload = jwt.decode(token, SECRET_KEY, algorithms=(ALGORITHM))  #> using jwt for decoding. payload is the result of decoding the token.
     username: str = payload.get('sub')                               #> a standard way to retrieve a username from a token
@@ -55,3 +56,24 @@ def get_current_customer(token: str = Depends(oauth2_scheme), db: Session = Depe
     raise credentials_exception
   
   return customer
+# def get_current_admin(token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)):
+#   credentials_exception = HTTPException(                             #> with this exception we can raise if we find an error in our code.
+#     status_code= status.HTTP_401_UNAUTHORIZED,
+#     detail = 'Could not validate the credentials of the customer',
+#     headers={'WWW-Authenticate': 'Bearer'}                           #> Standard HTTP exception if we can not authorize a user.
+#   )
+
+#   try:                                                               #> The try block is used to wrap code that may raise exceptions. 
+#     payload = jwt.decode(token, SECRET_KEY, algorithms=(ALGORITHM))  #> using jwt for decoding. payload is the result of decoding the token.
+#     username: setattr = payload.get('sub')                               #> a standard way to retrieve a username from a token
+#     if username is None:                                             #> i.e if the 'sub' claim is not present in the payload. (sub:subject)
+#       raise credentials_exception                                    #> It's raised when token is invalid or credentials are not provided.
+#   ##>>> Whatis: WTError is an exception from the JWT library, which is raised when there is an issue with decoding the token. 
+#   ##>>>         (e.g., invalid token, signature verification failed).                                    
+#   except JWTError:                                                   #> Catches any JWTError exceptions that occur during decoding of token.
+#     raise credentials_exception
+#   admin = db_admin.get_admin_by_username(username, db)      #> in db_customer we changed get_customer with get_customer_by_username
+#   if admin is None:
+#      raise credentials_exception
+  
+#   return admin

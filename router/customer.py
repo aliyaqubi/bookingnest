@@ -68,6 +68,7 @@ def delete_customer(id: int,
                     ):
     return db_customer.delete_customer(db, id)
 
+#customer can upload a file of his ID
 @router.post('/UploadID')
 def get_upload_id(upload_file: UploadFile = File(...)):
     path= f"files/{upload_file.filename}"
