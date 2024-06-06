@@ -36,13 +36,13 @@ def get_customer_by_username(username: str,
                  ):
     return db_customer.get_customer_by_username(db, username)
 
-##>>>  Howto: Read/retrieve customers (get the customers with one specific filter - here: id)
-@router.get('/{id}', response_model= CustomerDisplay)
-def get_customer(id: int, 
-                 db: Session = Depends(get_db),
-                 current_customer: CustomerBase = Depends(get_current_customer)           #>>> forWhat: to add Authorization to secure it
-                 ):
-    return db_customer.get_customer(db, id)
+# ##>>>  Howto: Read/retrieve customers (get the customers with one specific filter - here: id)
+# @router.get('/{id}', response_model= CustomerDisplay)
+# def get_customer(id: int, 
+#                  db: Session = Depends(get_db),
+#                  current_customer: CustomerBase = Depends(get_current_customer)           #>>> forWhat: to add Authorization to secure it
+#                  ):
+#     return db_customer.get_customer(db, id)
 
 
 ##>>>  Howto: Read/retrieve customers (get the customers with more than one filter - here: id & secondname)

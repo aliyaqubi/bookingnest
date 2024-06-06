@@ -32,10 +32,10 @@ def create_article_c(request: ArticleCBase,
 def get_article_c(id: int, 
                   db: Session = Depends(get_db), 
                   #token: str = Depends(oauth2_scheme)  #> it was replaced with next line
-                  current_customer: CustomerBase = Depends(get_current_customer)         #>>> forWhat: to add Authorization to secure it
+                  #current_customer: CustomerBase = Depends(get_current_customer)         #>>> forWhat: to add Authorization to secure it
                   ):   
     #return db_article_c.get_article_c(db, id)  #> it was replaced with next line
     return {
-        'data': db_article_c.get_article_c(db, id),
-        'current_customer': current_customer
+        'data': db_article_c.get_article_c(db, id)
+        #'current_customer': current_customer
     }
