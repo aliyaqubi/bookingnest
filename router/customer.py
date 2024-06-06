@@ -29,6 +29,14 @@ def get_all_customers(db: Session = Depends(get_db),
     return db_customer.get_all_customers(db)
 
 ##>>>  Howto: Read/retrieve customers (get the customers with one specific filter - here: id)
+@router.get('/{username}', response_model= CustomerDisplay)
+def get_customer_by_username(username: str, 
+                 db: Session = Depends(get_db),
+                 current_customer: CustomerBase = Depends(get_current_customer)           #>>> forWhat: to add Authorization to secure it
+                 ):
+    return db_customer.get_customer_by_username(db, username)
+
+##>>>  Howto: Read/retrieve customers (get the customers with one specific filter - here: id)
 @router.get('/{id}', response_model= CustomerDisplay)
 def get_customer(id: int, 
                  db: Session = Depends(get_db),
@@ -36,14 +44,15 @@ def get_customer(id: int,
                  ):
     return db_customer.get_customer(db, id)
 
-##>>>  Howto: Read/retrieve customers (get the customers with more than one filter - here: id & email)
-@router.get('/{id}/email', response_model= CustomerDisplay)
-def get_more_ucustomer(id: int, 
-                       email: str, 
+
+##>>>  Howto: Read/retrieve customers (get the customers with more than one filter - here: id & secondname)
+@router.get('/{id}/secondname', response_model= CustomerDisplay)
+def get_customer_by_more_filter(id: int, 
+                       secondname: str, 
                        db: Session = Depends(get_db),
                        current_customer: CustomerBase = Depends(get_current_customer)           #>>> forWhat: to add Authorization to secure it
                        ):
-    return db_customer.get_more_customer(db, id, email)
+    return db_customer.get_customer_by_more_filter(db, id, secondname)
 
 
 ##>>>  BookNest: update customers
