@@ -33,9 +33,10 @@ def get_all_bookings(db: Session = Depends(get_db)
 
 
 ##> Block 3: delete booking
-@router.delete('/{id}')           
+@router.delete('/{id}', status_code=204)           
 def delete_booking(id: int, 
                     db: Session = Depends(get_db),
                     #current_customer: CustomerBase = Depends(get_current_customer)           #>>> forWhat: to add Authorization to secure it
                     ):
-    return db_booking.delete_booking(db, id)
+    db_booking.delete_booking(db, id)
+    return ''

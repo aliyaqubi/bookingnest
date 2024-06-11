@@ -109,6 +109,7 @@ class HotelBase(BaseModel):
 
 ##> Whatis: Class for data-display that the system send back to hotel
 class HotelDisplay(BaseModel):
+    id: int
     name: str
     manager: str 
     username: str
