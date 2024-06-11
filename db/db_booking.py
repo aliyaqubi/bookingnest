@@ -44,4 +44,5 @@ def delete_booking(db: Session, id: int):
            detail= f'Booking with id {id} not found.') 
     db.delete(booking)
     db.commit()
-    return 'ok'
+    return 
+
