@@ -3,6 +3,7 @@ from sqlalchemy.orm.session import Session
 from schemas import HotelBase
 from db.models import DbHotel
 from fastapi import HTTPException, status
+from datetime import datetime
 
 
 ##>>>  BookNest: create hotels
@@ -18,8 +19,12 @@ def create_hotel(db: Session, request: HotelBase):   ##>>> Howto: create new hot
         country = request.country,
         city = request.city, 
         rooms = request.rooms, 
-        star = request.star   
-    )
+        star = request.star,
+        image_url = request.image_url,
+        image_url_type = request.image_url_type,
+        image_caption = request.image_caption,
+        #timestamp = datetime.datetime.now()   
+        )
     ##>>> Whatis: create elements
     db.add(new_hotel)           ##>>> Howto: add new hotel to database 
     db.commit()                 ##>>> Howto: send the operation to database 
@@ -80,7 +85,11 @@ def update_hotel(db: Session, id: int, request: HotelBase):
     hotel.country= request.country
     hotel.city= request.city 
     hotel.rooms= request.rooms
-    hotel.star= request.star   
+    hotel.star= request.star
+    hotel.image_url = request.image_url
+    hotel.image_url_type = request.image_url_type
+    hotel.image_caption = request.image_caption
+    #hotel.timestamp = datetime.datetime.now()      
     
     # hotel.update({
     #     DbHotel.name: request.name,

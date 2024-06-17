@@ -1,6 +1,6 @@
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql.schema import ForeignKey
-from sqlalchemy.sql.sqltypes import Integer, String, Boolean, Date
+from sqlalchemy.sql.sqltypes import Integer, String, Boolean, Date, DateTime
 from db.database import Base
 from sqlalchemy import Column
 from datetime import date
@@ -72,6 +72,10 @@ class DbHotel(Base):
     city = Column(String) 
     rooms = Column(Integer) 
     star = Column(Integer)
+    image_url = Column(String)
+    image_url_type = Column(String)
+    image_caption = Column(String)
+    #timestamp = Column(DateTime)
     #booking_id = Column(Integer, ForeignKey('booking.id'))   
     items_h = relationship('DbArticleH', back_populates='hotel') 
 #    items_room = relationship('DbRoom', back_populates='hotel')
