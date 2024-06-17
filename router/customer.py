@@ -28,7 +28,7 @@ def get_all_customers(db: Session = Depends(get_db),
                       ):
     return db_customer.get_all_customers(db)
 
-##>>>  Howto: Read/retrieve customers (get the customers with one specific filter - here: id)
+##>>>  Howto: Read/retrieve customers (get the customers with one specific filter - here: username)
 @router.get('/{username}', response_model= CustomerDisplay)
 def get_customer_by_username(username: str, 
                  db: Session = Depends(get_db),

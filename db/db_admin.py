@@ -34,6 +34,14 @@ def get_all_admin(db: Session):
             detail= f'Customer with id {id} not found.') 
     return admin
 
+##>>>  Howto: Read/retrieve admin by username (get the customers with one specific filter - here: username) {we need it in oauth2.py}
+def get_admin_by_username(db: Session, username: str):
+    admin = db.query(Dbadmin).filter(Dbadmin.username == username).first()
+    if not admin:
+       raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
+           detail= f'Admin with username {username} not found.') 
+    return admin
+
 ##>>>  Howto: Read/retrieve admin (get the admin with one specific filter - here: id)
 def get_admin(db: Session, id: int):
     admin = db.query(Dbadmin).filter(Dbadmin.id == id).first()
