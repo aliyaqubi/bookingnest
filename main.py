@@ -46,10 +46,12 @@ models.Base.metadata.create_all(engine)
       
 
 #> Block 5: CORS - a standard functionality to build application on the same machine as building the endpoint.
+#> (?) We can add more origin inside List of 'origins', e.g. http://localhost:5173 for React+Vite,
+#> (?) or we can use 'allow_origin = ["*"] to allow all origins, but in this case that might cause some probblem with authentication.
 origins = [
-    'http://localhost:3000'
+    'http://localhost:3000',
+    'http://localhost:3001'
 ]
-
 app.add_middleware(
     CORSMiddleware,
     allow_origins = origins,
@@ -57,4 +59,15 @@ app.add_middleware(
     allow_methods = ['*'],
     allow_headers = ['*']
 )
-app.mount('/files', StaticFiles(directory="files"), name='files')
+
+#> Block 6: upload images
+app.mount('/images', StaticFiles(directory="images"), name='images')
+
+# # BY Jurgen: Add CORS middleware to allow all origins and methods
+# app.add_middleware(
+#     CORSMiddleware,
+#     allow_origins=["*"],
+#     allow_credentials=True,
+#     allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"], 
+#     allow_headers=["*"],
+# )

@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 from typing import List
-from datetime import date
+from datetime import date, datetime
 
 ##> Block 5:  ===============================================================================
 
@@ -105,6 +105,9 @@ class HotelBase(BaseModel):
     city: str
     rooms: int
     star: int
+    image_url: str
+    image_url_type: str
+    image_caption: str
     #booking_id: int
 
 ##> Whatis: Class for data-display that the system send back to hotel
@@ -120,6 +123,10 @@ class HotelDisplay(BaseModel):
     city: str
     rooms: int
     star: int
+    image_url: str
+    image_url_type: str
+    image_caption: str
+    #timestamp: datetime
     items: list[ArticleH] = []  ##>>> in this line ArticleH goes back to class: ArticleH
  #   items_rooms: list[Room] = []  ##>>> in this line Room goes back to class: Room
     items_booking: list[Booking] = []  ##>>> in this line Booking goes back to class: Booking

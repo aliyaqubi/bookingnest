@@ -53,5 +53,5 @@ def delete_admin(id: int, db: Session = Depends(get_db)):
 ## admin can download the file (id) that is uploaded by customer
 @router.get('/download/{name}', response_class=FileResponse)
 def get_file(name: str):
-    path= f'files/{name}'
+    path= f'images/{name}'
     return path
