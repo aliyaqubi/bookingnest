@@ -5,7 +5,7 @@ from schemas import ArticleCBase, ArticleCDisplay
 from sqlalchemy.orm import Session
 from db.database import get_db
 from db import db_article_c
-from auth.oauth2 import oauth2_scheme, get_current_customer   #> import our variable from our file "oauth2" inside our folder"auth"
+from auth.oauth2 import get_current_customer   #> import our variable from our file "oauth2" inside our folder"auth"
 from schemas import CustomerBase
 
 

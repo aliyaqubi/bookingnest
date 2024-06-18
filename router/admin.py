@@ -4,7 +4,7 @@ from schemas import adminBase, adminDisplay
 from sqlalchemy.orm import Session
 from db.database import get_db
 from db import db_admin
-from auth.oauth2 import get_current_admin, oauth2_scheme
+from auth.oauth2 import get_current_admin
 from fastapi.responses import FileResponse
 
 ##>>>  BookNest: create a router for admin

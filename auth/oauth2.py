@@ -12,7 +12,16 @@ from fastapi import HTTPException, status
 from db import db_customer, db_admin
  
  
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")     #> Whatis: provide the endpoint for our token retrieval.
+admin_oauth2_scheme = OAuth2PasswordBearer(
+  tokenUrl="admin-token",
+  scheme_name="admin_oauth2_scheme"
+)     #> Whatis: provide the endpoint for our token retrieval.
+
+
+customer_oauth2_scheme = OAuth2PasswordBearer(
+  tokenUrl="customer-token",
+  scheme_name="customer_oauth2_scheme"
+)     #> Whatis: p
 
 ##Whatis: secret key is the key that allows us to sign the token yhar be generated. (it's random but should be unique.)
 #The secret key used to verify the token's signature. It should be a secure, private key known only to the server.
@@ -37,7 +46,7 @@ def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
 
 
 ##> Block 3: to retrieve the current admin that the token is attached to, & verify the token to make sure the customer is authenticated.
-def get_current_admin(token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)):
+def get_current_admin(token: str = Depends(admin_oauth2_scheme), db: Session = Depends(get_db)):
   credentials_exception = HTTPException(                             #> with this exception we can raise if we find an error in our code.
     status_code= status.HTTP_401_UNAUTHORIZED,
     detail = 'Could not validate the credentials of the admin',
@@ -62,7 +71,7 @@ def get_current_admin(token: str = Depends(oauth2_scheme), db: Session = Depends
 
 
 ##>>> Whatis: to retrieve the current customer that the token is attached to, & verify the token to make sure the customer is authenticated.
-def get_current_customer(token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)):
+def get_current_customer(token: str = Depends(customer_oauth2_scheme), db: Session = Depends(get_db)):
   credentials_exception = HTTPException(                             #> with this exception we can raise if we find an error in our code.
     status_code= status.HTTP_401_UNAUTHORIZED,
     detail = 'Could not validate the credentials of the customer',

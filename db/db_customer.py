@@ -14,7 +14,7 @@ def create_customer(db: Session, request: CustomerBase):   ##>>> Howto: create n
         username = request.username,
         password = Hash.bcrypt(request.password),
         email = request.email,
-        phone = request.phone,   # ???
+        phone = request.phone,   
         adress = request.adress,
         nationality = request.nationality,
         age = request.age
@@ -58,7 +58,6 @@ def get_customer_by_more_filter(db: Session, id: int, secondname: str):
        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
            detail= f'Customer with id {id} or with secondname {secondname} not found.') 
     return customer
-
 
 ##>>>  BookNest: update customers
 ##>>>  Note: There are two kinds of updating way:
