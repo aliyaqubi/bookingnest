@@ -4,8 +4,11 @@ from schemas import CustomerBase, CustomerDisplay
 from sqlalchemy.orm import Session
 from db.database import get_db
 from db import db_customer
-from auth.oauth2 import oauth2_scheme, get_current_customer
+from auth.oauth2 import get_current_customer
 import shutil
+
+
+
 ##>>>  BookNest: create a router for customers
 router = APIRouter(       
     prefix= '/customer',
@@ -15,7 +18,7 @@ router = APIRouter(
 
 
 ##>>>  BookNest: create customers
-@router.post('/', response_model= CustomerDisplay)
+@router.post('/' , response_model= CustomerDisplay)
 def create_customer(request: CustomerBase, 
                 db: Session = Depends(get_db)):
     return db_customer.create_customer(db, request)

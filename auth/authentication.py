@@ -14,7 +14,7 @@ router = APIRouter(
     tags= ['authentication']    
 )
 
-@router.post('/token')
+@router.post('/admin-token')
 def get_token(request: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
     admin = db.query(models.Dbadmin).filter(models.Dbadmin.username == request.username).first()  #> Checking if the username is correct
     if not admin:
@@ -31,10 +31,7 @@ def get_token(request: OAuth2PasswordRequestForm = Depends(), db: Session = Depe
         'username': admin.username
     }
 
-router = APIRouter(       
-    tags= ['authentication']    
-)
-@router.post('/token')
+@router.post('/customer-token')
 def get_token(request: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
     customer = db.query(models.DbCustomer).filter(models.DbCustomer.username == request.username).first()  #> Checking if the username is correct
     if not customer:
