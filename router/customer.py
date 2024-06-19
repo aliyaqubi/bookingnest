@@ -1,5 +1,5 @@
 from typing import List
-from fastapi import APIRouter, Depends, File, UploadFile
+from fastapi import APIRouter, Depends, File, UploadFile, HTTPException, status
 from schemas import CustomerBase, CustomerDisplay
 from sqlalchemy.orm import Session
 from db.database import get_db
@@ -33,10 +33,13 @@ def get_all_customers(db: Session = Depends(get_db),
 
 ##>>>  Howto: Read/retrieve customers (get the customers with one specific filter - here: username)
 @router.get('/{username}', response_model= CustomerDisplay)
-def get_customer_by_username(username: str, 
+def get_customer_by_username(
+                 username: str, 
                  db: Session = Depends(get_db),
                  current_customer: CustomerBase = Depends(get_current_customer)           #>>> forWhat: to add Authorization to secure it
                  ):
+    if not current_customer.username == username:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Not allowed")
     return db_customer.get_customer_by_username(db, username)
 
 # ##>>>  Howto: Read/retrieve customers (get the customers with one specific filter - here: id)
@@ -55,6 +58,8 @@ def get_customer_by_more_filter(id: int,
                        db: Session = Depends(get_db),
                        current_customer: CustomerBase = Depends(get_current_customer)           #>>> forWhat: to add Authorization to secure it
                        ):
+    if not current_customer.id == id:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Not allowed")
     return db_customer.get_customer_by_more_filter(db, id, secondname)
 
 
@@ -67,17 +72,21 @@ def update_customer(id: int,
                     db: Session = Depends(get_db),
                     current_customer: CustomerBase = Depends(get_current_customer)           #>>> forWhat: to add Authorization to secure it
                     ):
+    if not current_customer.id == id:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Not allowed")
     return db_customer.update_customer(db, id, request)
 
 
 ##>>>  BookNest: delete customers
 #@router.get('/{id})/delete')     ##>>> trainer did it with .get instesd of .delete
 
-@router.delete('/{id}')           ##>>>change to .delete in class with Jurgen
+@router.delete('/{id}', status_code=204)           ##>>>change to .delete in class with Jurgen
 def delete_customer(id: int, 
                     db: Session = Depends(get_db),
                     current_customer: CustomerBase = Depends(get_current_customer)           #>>> forWhat: to add Authorization to secure it
                     ):
+    if not current_customer.id == id:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Not allowed")
     return db_customer.delete_customer(db, id)
 
 @router.post('/UploadID')

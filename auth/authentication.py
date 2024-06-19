@@ -47,3 +47,20 @@ def get_token(request: OAuth2PasswordRequestForm = Depends(), db: Session = Depe
         'customer_id': customer.id,
         'username': customer.username
     }
+
+@router.post('/hotel-token')
+def get_token(request: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
+    hotel = db.query(models.DbHotel).filter(models.DbHotel.username == request.username).first()  #> Checking if the username is correct
+    if not hotel:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Invalid username")
+    if not Hash.verify(hotel.password, request.password):                                               #> Checking if the password is correct
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Incorrect password")     
+    
+    access_token = oauth2.create_access_token(data={'sub' : hotel.username})                            #> generating token, after check u & p
+
+    return{
+        'access_token': access_token,
+        'token_type': 'bearer',                                                  #> bearer: an standard type for access token that always be used
+        'hotel_id': hotel.id,
+        'username': hotel.username
+    }
