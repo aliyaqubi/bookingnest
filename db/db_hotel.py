@@ -31,6 +31,12 @@ def create_hotel(db: Session, request: HotelBase):   ##>>> Howto: create new hot
     db.refresh(new_hotel)       ##>>> Howto: to add the data that be created by database itself 
     return new_hotel
 
+def get_hotel_by_username(db: Session, username: str):
+    hotel = db.query(DbHotel).filter(DbHotel.username == username).first()
+    if not hotel:
+       raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
+           detail= f'Hotel with username {username} not found.') 
+    return hotel
 
 ##>>>  BookNest: Read/retrieve hotels (all)
 def get_all_hotels(db: Session, city: str, country: str, star: int):
@@ -116,4 +122,4 @@ def delete_hotel(db: Session, id: int):
             detail= f'Hotel with id {id} not found.') 
     db.delete(hotel)
     db.commit()
-    return 'ok'
+    return

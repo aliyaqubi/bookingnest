@@ -93,6 +93,6 @@ def delete_customer(db: Session, id: int):
            detail= f'Customer with id {id} not found.') 
     db.delete(customer)
     db.commit()
-    return 'ok'
+    return
 
 

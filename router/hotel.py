@@ -4,6 +4,7 @@ from schemas import HotelBase, HotelDisplay
 from sqlalchemy.orm import Session
 from db.database import get_db
 from db import db_hotel
+from auth.oauth2 import get_current_hotel
 import shutil, random, string
 
 ##> Block 1: create router for hotels
@@ -31,29 +32,47 @@ def create_hotel(request: HotelBase, db: Session = Depends(get_db)):
 
 ##> Read/retrieve hotels (all)
 @router.get('/all', response_model= List[HotelDisplay])
-def get_all_hotels(db: Session = Depends(get_db), star:int = None, country: str = None, city: str = None):
+def get_all_hotels(db: Session = Depends(get_db), star:int = None, country: str = None, city: str = None, 
+                   current_hotel: HotelBase = Depends(get_current_hotel)
+                   ):
     return db_hotel.get_all_hotels(db, city, country, star)
 
 ##> Read/retrieve hotels (with one specific filter - here: id)
 @router.get('/{id}', response_model= HotelDisplay)
-def get_hotel(id: int, db: Session = Depends(get_db)):
+def get_hotel(id: int, db: Session = Depends(get_db), 
+              current_hotel: HotelBase = Depends(get_current_hotel)
+              ):
+    if not current_hotel.id == id:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Not allowed")
     return db_hotel.get_hotel(db, id)
 
 #> Read/retrieve hotels (with more than one filter - here: id & email)
 @router.get('/{id}/email', response_model= HotelDisplay)
-def get_more_hotel(id: int, email: str, db: Session = Depends(get_db)):
+def get_more_hotel(id: int, email: str, db: Session = Depends(get_db), 
+                   current_hotel: HotelBase = Depends(get_current_hotel)
+                   ):
+    if not current_hotel.id == id:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Not allowed")
     return db_hotel.get_more_hotel(db, id, email)
 
 
 ##> update hotels
 @router.put('/{id}')                       #> another way:#@router.post('/{id}/update')
-def update_hotel(id: int, request: HotelBase, db: Session = Depends(get_db)):
+def update_hotel(id: int, request: HotelBase, db: Session = Depends(get_db), 
+                 current_hotel: HotelBase = Depends(get_current_hotel)
+                 ):
+    if not current_hotel.id == id:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Not allowed")
     return db_hotel.update_hotel(db, id, request)
 
 
 ##> delete hotels
-@router.delete('/{id}')                     #> another way:@router.get('/{id})/delete') 
-def delete_hotel(id: int, db: Session = Depends(get_db)):
+@router.delete('/{id}', status_code=204)                     #> another way:@router.get('/{id})/delete') 
+def delete_hotel(id: int, db: Session = Depends(get_db), 
+                 current_hotel: HotelBase = Depends(get_current_hotel)
+                 ):
+    if not current_hotel.id == id:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Not allowed")
     return db_hotel.delete_hotel(db, id)
 
 
@@ -62,16 +81,19 @@ def delete_hotel(id: int, db: Session = Depends(get_db)):
 ##> Block 4: Upload image for Hotel (New version, video 106)
 ##> Attaching 6 random letters to end of fileneme, to prevent removing some images because of the same name  
 @router.post('/image')
-def upload_image(image: UploadFile = File(...)):
+def upload_image(image: UploadFile = File(...),
+                 current_hotel: HotelBase = Depends(get_current_hotel)
+                 ):
     letters = string.ascii_letters
     rand_str = ''.join(random.choice(letters) for i in range(6))
     new = f'_{rand_str}.'
     filename = new.join(image.filename.rsplit('.', 1))
-    path= f"images/{filename}"
+    path= f"images/{get_current_hotel.id}/{filename}"
 
     with open(path, 'w+b') as buffer:
         shutil.copyfileobj(image.file, buffer)
     return {'filename': path}
+
 
 
 #by Atiq: Hotel owner can upload a Pic of his hotel
