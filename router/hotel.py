@@ -24,15 +24,15 @@ image_url_types = ['absolute', 'relative']
 ##> Block 2: create hotels
 @router.post('/', response_model= HotelDisplay)
 def create_hotel(request: HotelBase, db: Session = Depends(get_db)):
-    if not request.image_url_type in image_url_types:
-        raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
-                            detail="image_url_type can be only 'absolute' or 'relative'.")
+    # if not request.image_url_type in image_url_types: #( because of problem in front-end)
+    #     raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+    #                         detail="image_url_type can be only 'absolute' or 'relative'.")
     return db_hotel.create_hotel(db, request)
 
 
 ##> Read/retrieve hotels (all)
 @router.get('/all', response_model= List[HotelDisplay])
-def get_all_hotels(db: Session = Depends(get_db), star:int = None, country: str = None, city: str = None, 
+def get_all_hotels(db: Session = Depends(get_db), star:str = None, country: str = None, city: str = None, 
                    current_hotel: HotelBase = Depends(get_current_hotel)
                    ):
     return db_hotel.get_all_hotels(db, city, country, star)
@@ -79,7 +79,7 @@ def delete_hotel(id: int, db: Session = Depends(get_db),
 
 
 ##> Block 4: Upload image for Hotel (New version, video 106)
-##> Attaching 6 random letters to end of fileneme, to prevent removing some images because of the same name  
+##> Attaching 6 random letters to end of filename, to prevent removing some images because of the same name  
 @router.post('/image')
 def upload_image(image: UploadFile = File(...),
                  current_hotel: HotelBase = Depends(get_current_hotel)
@@ -96,14 +96,3 @@ def upload_image(image: UploadFile = File(...),
 
 
 
-#by Atiq: Hotel owner can upload a Pic of his hotel
-# @router.post('/pics')
-# def get_upload_pic(id:int, upload_file: UploadFile = File(...)):
-#     path= f"files/{upload_file.filename}"
-#     with open(path, 'w+b') as buffer:
-#         shutil.copyfileobj(upload_file.file, buffer)
-#     return{
-#         'id': id,
-#         'filename': path,
-#         'type': upload_file.content_type
-#    }

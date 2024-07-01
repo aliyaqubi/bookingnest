@@ -20,9 +20,9 @@ def create_hotel(db: Session, request: HotelBase):   ##>>> Howto: create new hot
         city = request.city, 
         rooms = request.rooms, 
         star = request.star,
-        image_url = request.image_url,
-        image_url_type = request.image_url_type,
-        image_caption = request.image_caption,
+        #image_url = request.image_url,
+        #image_url_type = request.image_url_type,
+        #image_caption = request.image_caption,
         #timestamp = datetime.datetime.now()   
         )
     ##>>> Whatis: create elements
@@ -38,8 +38,8 @@ def get_hotel_by_username(db: Session, username: str):
            detail= f'Hotel with username {username} not found.') 
     return hotel
 
-##>>>  BookNest: Read/retrieve hotels (all)
-def get_all_hotels(db: Session, city: str, country: str, star: int):
+##> Read/retrieve hotels (all)
+def get_all_hotels(db: Session, city: str, country: str, star: str):
     hotelQuery = db.query(DbHotel)
     
     if(city != None):
@@ -66,7 +66,7 @@ def get_more_hotel(db: Session, id: int, email: str):
     hotel = db.query(DbHotel).filter(DbHotel.id == id).filter(DbHotel.email == email).first()
     if not hotel:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
-            detail= f'Hotel with id {id} not found.') 
+            detail= f'Hotel with id {id} or with email {email} not found.') 
     return hotel
 
 
@@ -92,25 +92,11 @@ def update_hotel(db: Session, id: int, request: HotelBase):
     hotel.city= request.city 
     hotel.rooms= request.rooms
     hotel.star= request.star
-    hotel.image_url = request.image_url
-    hotel.image_url_type = request.image_url_type
-    hotel.image_caption = request.image_caption
+    #hotel.image_url = request.image_url
+    #hotel.image_url_type = request.image_url_type
+    #hotel.image_caption = request.image_caption
     #hotel.timestamp = datetime.datetime.now()      
     
-    # hotel.update({
-    #     DbHotel.name: request.name,
-    #     DbHotel.manager: request.manager,
-    #     DbHotel.username: request.username,
-    #     DbHotel.password: Hash.bcrypt(request.password),
-    #     DbHotel.email: request.email,
-    #     DbHotel.phone: request.phone, 
-    #     DbHotel.adress: request.adress,
-    #     DbHotel.country: request.country,
-    #     DbHotel.city: request.city, 
-    #     DbHotel.rooms: request.rooms,
-    #     DbHotel.star: request.star   
-    # })
-
     db.commit()
     return 'ok'
 

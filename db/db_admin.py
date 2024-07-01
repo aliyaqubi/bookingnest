@@ -11,14 +11,14 @@ from fastapi import HTTPException, status
 def create_admin(db: Session, request: adminBase):   ##>>> Howto: create new admin in database 
     new_admin = Dbadmin(
         firstname = request.firstname,
-        secondname = request.secondname,
+        lastname = request.lastname,
         username = request.username,
         password = Hash.bcrypt(request.password),
         email = request.email,
-        phone = request.phone,   # ???
-        adress = request.adress,
-        nationality = request.nationality,
-        age = request.age
+        # phone = request.phone,   # ???
+        # adress = request.adress,
+        # nationality = request.nationality,
+        # age = request.age
     )
     ##>>> Whatis: create elements
     db.add(new_admin)           ##>>> Howto: add new admin to database }
@@ -67,14 +67,14 @@ def update_admin(db: Session, id: int, request: adminBase):
             detail= f'admin with id {id} not found.') 
     adminquery.update({
         Dbadmin.firstname: request.firstname,
-        Dbadmin.secondname: request.secondname,
+        Dbadmin.lastname: request.lastname,
         Dbadmin.username: request.username,
         Dbadmin.password: Hash.bcrypt(request.password),
         Dbadmin.email: request.email,
-        Dbadmin.phone: request.phone,  
-        Dbadmin.adress: request.adress,
-        Dbadmin.nationality: request.nationality,
-        Dbadmin.age: request.age
+        # Dbadmin.phone: request.phone,  
+        # Dbadmin.adress: request.adress,
+        # Dbadmin.nationality: request.nationality,
+        # Dbadmin.age: request.age
     })
     db.commit()
     return 'ok'

@@ -1,14 +1,14 @@
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse, PlainTextResponse
 from fastapi.exceptions import HTTPException
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 from exceptions import StoryException
-from router import customer, hotel, product_c, article_c, article_h, booking
-from router import admin
+from router import admin, customer, hotel, product_c, article_c, article_h, booking
 from auth import authentication
 from db import models
 from db.database import engine
-from fastapi.middleware.cors import CORSMiddleware
-from fastapi.staticfiles import StaticFiles
+
 
 
 #> Block 1
@@ -42,7 +42,11 @@ def story_exception_handler(request: Request, exc: StoryException):   #>>> exc:e
 
 #> Block 4
 models.Base.metadata.create_all(engine) 
-##>>Note :if something change in structure of tables, delete <fastapi-practice.db> and run server again.
+
+
+
+#> Block 5: upload images
+app.mount('/images', StaticFiles(directory="images"), name='images')
       
 
 #> Block 5: CORS - a standard functionality to build application on the same machine as building the endpoint.
@@ -50,7 +54,8 @@ models.Base.metadata.create_all(engine)
 #> (?) or we can use 'allow_origin = ["*"] to allow all origins, but in this case that might cause some probblem with authentication.
 origins = [
     'http://localhost:3000',
-    'http://localhost:3001'
+    'http://localhost:3001',
+    'http://localhost:3002'
 ]
 app.add_middleware(
     CORSMiddleware,
@@ -60,10 +65,8 @@ app.add_middleware(
     allow_headers = ['*']
 )
 
-#> Block 6: upload images
-app.mount('/images', StaticFiles(directory="images"), name='images')
 
-# # BY Jurgen: Add CORS middleware to allow all origins and methods
+##> BY Jurgen: Add CORS middleware to allow all origins and methods
 # app.add_middleware(
 #     CORSMiddleware,
 #     allow_origins=["*"],
