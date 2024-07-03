@@ -32,27 +32,27 @@ def create_hotel(request: HotelBase, db: Session = Depends(get_db)):
 
 ##> Read/retrieve hotels (all)
 @router.get('/all', response_model= List[HotelDisplay])
-def get_all_hotels(db: Session = Depends(get_db), star:str = None, country: str = None, city: str = None, 
-                   current_hotel: HotelBase = Depends(get_current_hotel)
+def get_all_hotels(db: Session = Depends(get_db), country: str = None, city: str = None, 
+                   #current_hotel: HotelBase = Depends(get_current_hotel)  #star:str = None,
                    ):
-    return db_hotel.get_all_hotels(db, city, country, star)
+    return db_hotel.get_all_hotels(db, country, city)
 
 ##> Read/retrieve hotels (with one specific filter - here: id)
 @router.get('/{id}', response_model= HotelDisplay)
 def get_hotel(id: int, db: Session = Depends(get_db), 
-              current_hotel: HotelBase = Depends(get_current_hotel)
+              #current_hotel: HotelBase = Depends(get_current_hotel)
               ):
-    if not current_hotel.id == id:
-        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Not allowed")
+    #if not current_hotel.id == id:
+     #   raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Not allowed")
     return db_hotel.get_hotel(db, id)
 
 #> Read/retrieve hotels (with more than one filter - here: id & email)
 @router.get('/{id}/email', response_model= HotelDisplay)
 def get_more_hotel(id: int, email: str, db: Session = Depends(get_db), 
-                   current_hotel: HotelBase = Depends(get_current_hotel)
+                   #current_hotel: HotelBase = Depends(get_current_hotel)
                    ):
-    if not current_hotel.id == id:
-        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Not allowed")
+    #if not current_hotel.id == id:
+     #   raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Not allowed")
     return db_hotel.get_more_hotel(db, id, email)
 
 

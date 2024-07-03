@@ -39,19 +39,22 @@ def get_hotel_by_username(db: Session, username: str):
     return hotel
 
 ##> Read/retrieve hotels (all)
-def get_all_hotels(db: Session, city: str, country: str, star: str):
-    hotelQuery = db.query(DbHotel)
+def get_all_hotels(db: Session, country: str, city: str):  #star: str
+    hotel = db.query(DbHotel)
     
-    if(city != None):
-        hotelQuery = hotelQuery.filter(DbHotel.city.contains(city))
+    # if(city != None):
+    #     hotelQuery = hotelQuery.filter(DbHotel.city.contains(city))
     
     if(country != None):
-        hotelQuery = hotelQuery.filter(DbHotel.country == country)
+        hotel = hotel.filter(DbHotel.country == country)
+
+    if(city != None):
+        hotel = hotel.filter(DbHotel.city == city)
     
-    if(star != None):
-        hotelQuery = hotelQuery.filter(DbHotel.star == star)
+    # if(star != None):
+    #     hotelQuery = hotelQuery.filter(DbHotel.star == star)
     
-    return hotelQuery.all()
+    return hotel.all()
 
 ##>>>  Howto: Read/retrieve hotels (get the hotels with one specific filter - here: id)
 def get_hotel(db: Session, id: int):
