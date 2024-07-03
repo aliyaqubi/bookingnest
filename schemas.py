@@ -8,7 +8,7 @@ from datetime import date, datetime
 class Customer(BaseModel):
     id: int
     firstname: str
-    secondname: str
+    lastname: str
     class Config():
         orm_mode = True  
 
@@ -46,46 +46,34 @@ class Booking(BaseModel):
         orm_mode = True  
 
 
-# ##> Whatis: class for the 'Room' inside the CustomerDisplay & HotelDisplay & BookingDisplay
-# class Room(BaseModel):
-#     room_number: int
-#     roon_size: int
-#     room_beds: int
-#     room_type: str
-#     room_amenities: str 
-#     class Config():
-#         orm_mode = True 
-
 
 ##> Block 1: class CustomerBase (data that comes from customer)  ===========================================         
 
 class CustomerBase(BaseModel):
     firstname: str
-    secondname: str
+    lastname: str
     username: str
     password: str
     email: str
     phone: str  
-    adress: str
-    nationality: str
-    age: int
+    # adress: str
+    # nationality: str
+    # age: int
     #booking_id: int
 
 ##> Whatis: Class for data-display that the system send back to customer
 class CustomerDisplay(BaseModel):
     id: int
     firstname: str
-    secondname: str
+    lastname: str
     username: str
     email: str
     phone: str   
-    adress: str
-    nationality: str
-    age: int
+    # adress: str
+    # nationality: str
+    # age: int
     items: list[ArticleC] = []  ##>>> in this line ArticleC goes back to class: ArticleC
-#   items_rooms: list[Room] = []  ##>>> in this line Room goes back to class: Room
     items_booking: list[Booking] = []  ##>>> in this line Booking goes back to class: Booking
-    #booking: Booking
     class Config():
         orm_mode = True
 
@@ -103,11 +91,11 @@ class HotelBase(BaseModel):
     adress: str
     country: str
     city: str
-    rooms: int
-    star: int
-    image_url: str
-    image_url_type: str
-    image_caption: str
+    rooms: str
+    star: str
+    #image_url: str
+    #image_url_type: str
+    #image_caption: str
     #booking_id: int
 
 ##> Whatis: Class for data-display that the system send back to hotel
@@ -121,16 +109,14 @@ class HotelDisplay(BaseModel):
     adress: str
     country: str
     city: str
-    rooms: int
-    star: int
-    image_url: str
-    image_url_type: str
-    image_caption: str
+    rooms: str
+    star: str
+    #image_url: str
+    #image_url_type: str
+    #image_caption: str
     #timestamp: datetime
     items: list[ArticleH] = []  ##>>> in this line ArticleH goes back to class: ArticleH
- #   items_rooms: list[Room] = []  ##>>> in this line Room goes back to class: Room
     items_booking: list[Booking] = []  ##>>> in this line Booking goes back to class: Booking
-    #booking: Booking
     class Config():
         orm_mode = True 
 
@@ -186,7 +172,6 @@ class BookingBase(BaseModel):
     check_out: date 
     customer_id: int
     hotel_id: int
-    #room_id: int
 
 
 ##> Whatis: Class for Booking that system send back (structure of data-display)
@@ -195,34 +180,13 @@ class BookingDisplay(BaseModel):
     check_out: date 
     customer: Customer      ##>>> in this line customer goes back to class: Customer
     hotel: Hotel
-    #room: Room            ##>>> in this line hotel goes back to class: Hotel
     class Config():
         orm_mode = True   
 
-# ##> Block 7: class RoomBase (rooms of each hotel) =============================================
-
-# class RoomBase(BaseModel):
-#     room_number: int
-#     roon_size: int
-#     room_beds: int
-#     room_type: str
-#     room_amenities: str 
-#     creator_id: int
-
-
-# ##> Whatis: Class for Rooms that system send back to hotel (structure of data-display)
-# class RoomDisplay(BaseModel):
-#     room_number: int
-#     roon_size: int
-#     room_beds: int
-#     room_type: str
-#     room_amenities: str 
-#     hotel: Hotel            ##>>> in this line hotel goes back to class: Hotel
-#     class Config():
-#         orm_mode = True        
-
+        
 
 #================================ADMIN=============================================
+
 ##>>> BookNest: class for the 'admin' 
 class admin(BaseModel):
     id: int
@@ -234,28 +198,28 @@ class admin(BaseModel):
 ##>>> BookNest: Class for data that comes from admin
 class adminBase(BaseModel):
     firstname: str
-    secondname: str
+    lastname: str
     username: str
     password: str
     email: str
-    phone: str   # ???
-    adress: str
-    nationality: str
-    age: int
+    # phone: str   # ???
+    # adress: str
+    # nationality: str
+    # age: int
 
 ##>>> BookNest: Class for data-display that the system send back to admin
 class adminDisplay(BaseModel):
     firstname: str
-    secondname: str
+    lastname: str
     username: str
     email: str
-    phone: str   # ???
-    adress: str
-    nationality: str
-    age: int
+    # phone: str   # ???
+    # adress: str
+    # nationality: str
+    # age: int
     class Config():
         orm_mode = True
-#=============================================================================================
+
 
 
 

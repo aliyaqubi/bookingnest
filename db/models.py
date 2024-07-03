@@ -13,14 +13,14 @@ class Dbadmin(Base):
     __tablename__ = 'admin'
     id = Column(Integer, primary_key=True, index=True)
     firstname = Column(String)
-    secondname  = Column(String)
+    lastname  = Column(String)
     username = Column(String)
     password = Column(String)
     email = Column(String)
-    phone = Column(String)  #???
-    adress = Column(String)
-    nationality = Column(String)
-    age = Column(Integer)
+    # phone = Column(String)  #???
+    # adress = Column(String)
+    # nationality = Column(String)
+    # age = Column(Integer)
 
 ##   Customer  ===============================================================================
 
@@ -29,17 +29,16 @@ class DbCustomer(Base):
     __tablename__ = 'customers'
     id = Column(Integer, primary_key=True, index=True)
     firstname = Column(String)
-    secondname  = Column(String)
+    lastname  = Column(String)
     username = Column(String)
     password = Column(String)
     email = Column(String)
     phone = Column(String)  
-    adress = Column(String)
-    nationality = Column(String)
-    age = Column(Integer)
+    # adress = Column(String)
+    # nationality = Column(String)
+    # age = Column(Integer)
     #booking_id = Column(Integer, ForeignKey('booking.id')) 
     items_c = relationship('DbArticleC', back_populates='customer')
-#    items_room = relationship('DbRoom', back_populates='hotel')
     items_book = relationship('DbBooking', back_populates='customer')
 
 ##>>> BookNest: Article-Customer Model (Articles that be crated by customer)
@@ -70,15 +69,14 @@ class DbHotel(Base):
     adress = Column(String)
     country = Column(String)
     city = Column(String) 
-    rooms = Column(Integer) 
-    star = Column(Integer)
-    image_url = Column(String)
-    image_url_type = Column(String)
-    image_caption = Column(String)
+    rooms = Column(String) 
+    star = Column(String) 
+    #image_url = Column(String)
+    #image_url_type = Column(String)
+    #image_caption = Column(String)
     #timestamp = Column(DateTime)
     #booking_id = Column(Integer, ForeignKey('booking.id'))   
     items_h = relationship('DbArticleH', back_populates='hotel') 
-#    items_room = relationship('DbRoom', back_populates='hotel')
     items_book = relationship('DbBooking', back_populates='hotel')
 
 
@@ -94,19 +92,7 @@ class DbArticleH(Base):
     hotel = relationship('DbHotel', back_populates= 'items_h')
 
 
-##>>> BookNest: Room Model
-# class DbRoom(Base):                 
-#     __tablename__ = 'rooms'
-#     id = Column(Integer, primary_key=True, index=True)
-#     room_number = Column(Integer)
-#     room_size = Column(Integer)
-#     room_beds = Column(Integer)
-#     room_type = Column(String) 
-#     room_amenities = Column(String) 
-#     hotel_id = Column(Integer, ForeignKey('hotels.id'))
-#     hotel = relationship('DbHotel', back_populates= 'items_room')
-#     items_book = relationship('DbBooking', back_populates='room') 
-     
+
 
 ##>>> BookNest: Booking Model
 class DbBooking(Base):                 
@@ -116,10 +102,9 @@ class DbBooking(Base):
     check_out = Column(Date)
     customer_id = Column(Integer, ForeignKey('customers.id'))
     hotel_id = Column(Integer, ForeignKey('hotels.id'))
-#    room_id = Column(Integer, ForeignKey('rooms.id'))
     customer = relationship('DbCustomer', back_populates= 'items_book') 
     hotel = relationship('DbHotel', back_populates= 'items_book')
-#    room = relationship('DbRoom', back_populates= 'items_book')  
+  
 
 
 
