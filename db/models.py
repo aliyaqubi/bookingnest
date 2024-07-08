@@ -17,10 +17,7 @@ class Dbadmin(Base):
     username = Column(String)
     password = Column(String)
     email = Column(String)
-    # phone = Column(String)  #???
-    # adress = Column(String)
-    # nationality = Column(String)
-    # age = Column(Integer)
+    
 
 ##   Customer  ===============================================================================
 
@@ -34,9 +31,6 @@ class DbCustomer(Base):
     password = Column(String)
     email = Column(String)
     phone = Column(String)  
-    # adress = Column(String)
-    # nationality = Column(String)
-    # age = Column(Integer)
     #booking_id = Column(Integer, ForeignKey('booking.id')) 
     items_c = relationship('DbArticleC', back_populates='customer')
     items_book = relationship('DbBooking', back_populates='customer')
@@ -98,10 +92,16 @@ class DbArticleH(Base):
 class DbBooking(Base):                 
     __tablename__ = 'booking'
     id = Column(Integer, primary_key=True, index=True)
+    hotel_name = Column(String)
+    city = Column(String)
+    customer_firstname = Column(String)
+    customer_lastname = Column(String)
     check_in = Column(Date)
     check_out = Column(Date)
-    customer_id = Column(Integer, ForeignKey('customers.id'))
-    hotel_id = Column(Integer, ForeignKey('hotels.id'))
+    customer_lastname = Column(String, ForeignKey('customers.lastname'))
+    hotel_name = Column(String, ForeignKey('hotels.name'))
+    #customer_id = Column(Integer, ForeignKey('customers.id'))
+    #hotel_id = Column(Integer, ForeignKey('hotels.id'))
     customer = relationship('DbCustomer', back_populates= 'items_book') 
     hotel = relationship('DbHotel', back_populates= 'items_book')
   

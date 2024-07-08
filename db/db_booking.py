@@ -17,10 +17,14 @@ from fastapi import HTTPException, status
 def book_hotel(db: Session, booking: BookingBase): #= Depends(get_db)):
     # Assume there are models for Booking, Hotel, and Customer
     new_booking = DbBooking(
+        hotel_name = booking.hotel_name,
+        city = booking.city,
+        customer_firstname = booking.customer_firstname,
+        customer_lastname = booking.customer_lastname,
         check_in = booking.check_in,
         check_out = booking.check_out,
-        hotel_id = booking.hotel_id,
-        customer_id = booking.customer_id    
+        #hotel_id = booking.hotel_id,
+        #customer_id = booking.customer_id    
     )
     db.add(new_booking)
     db.commit()

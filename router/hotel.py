@@ -47,13 +47,13 @@ def get_hotel(id: int, db: Session = Depends(get_db),
     return db_hotel.get_hotel(db, id)
 
 #> Read/retrieve hotels (with more than one filter - here: id & email)
-@router.get('/{id}/email', response_model= HotelDisplay)
-def get_more_hotel(id: int, email: str, db: Session = Depends(get_db), 
-                   #current_hotel: HotelBase = Depends(get_current_hotel)
-                   ):
-    #if not current_hotel.id == id:
-     #   raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Not allowed")
-    return db_hotel.get_more_hotel(db, id, email)
+# @router.get('/{id}/email', response_model= HotelDisplay)
+# def get_more_hotel(id: int, email: str, db: Session = Depends(get_db), 
+#                    #current_hotel: HotelBase = Depends(get_current_hotel)
+#                    ):
+#     #if not current_hotel.id == id:
+#      #   raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Not allowed")
+#     return db_hotel.get_more_hotel(db, id, email)
 
 
 ##> update hotels

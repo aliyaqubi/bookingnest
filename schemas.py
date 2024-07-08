@@ -56,9 +56,6 @@ class CustomerBase(BaseModel):
     password: str
     email: str
     phone: str  
-    # adress: str
-    # nationality: str
-    # age: int
     #booking_id: int
 
 ##> Whatis: Class for data-display that the system send back to customer
@@ -69,9 +66,6 @@ class CustomerDisplay(BaseModel):
     username: str
     email: str
     phone: str   
-    # adress: str
-    # nationality: str
-    # age: int
     items: list[ArticleC] = []  ##>>> in this line ArticleC goes back to class: ArticleC
     items_booking: list[Booking] = []  ##>>> in this line Booking goes back to class: Booking
     class Config():
@@ -168,14 +162,22 @@ class ArticleHDisplay(BaseModel):
 ##> Block 8: class BookingBase  ===========================================================   
 
 class BookingBase(BaseModel):
+    hotel_name : str
+    city : str
+    customer_firstname : str
+    customer_lastname : str
     check_in: date
     check_out: date 
-    customer_id: int
-    hotel_id: int
+    #customer_id: int
+    #hotel_id: int
 
 
 ##> Whatis: Class for Booking that system send back (structure of data-display)
 class BookingDisplay(BaseModel):
+    hotel_name : str
+    city : str
+    customer_firstname : str
+    customer_lastname : str
     check_in: date
     check_out: date 
     customer: Customer      ##>>> in this line customer goes back to class: Customer
@@ -202,10 +204,7 @@ class adminBase(BaseModel):
     username: str
     password: str
     email: str
-    # phone: str   # ???
-    # adress: str
-    # nationality: str
-    # age: int
+
 
 ##>>> BookNest: Class for data-display that the system send back to admin
 class adminDisplay(BaseModel):
@@ -213,10 +212,6 @@ class adminDisplay(BaseModel):
     lastname: str
     username: str
     email: str
-    # phone: str   # ???
-    # adress: str
-    # nationality: str
-    # age: int
     class Config():
         orm_mode = True
 

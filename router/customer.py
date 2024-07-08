@@ -28,7 +28,7 @@ def create_customer(request: CustomerBase,
 ##> Read/retrieve customers (all customers)
 @router.get('/', response_model= List[CustomerDisplay])
 def get_all_customers(db: Session = Depends(get_db),
-                      current_customer: CustomerBase = Depends(get_current_customer)           #>>> forWhat: to add Authorization to secure it
+                      #current_customer: CustomerBase = Depends(get_current_customer)           #>>> forWhat: to add Authorization to secure it
                       ):
     return db_customer.get_all_customers(db)
 
@@ -45,15 +45,15 @@ def get_customer_by_username(
 
 
 ##> Read/retrieve customers (with more than one filter - here: id & lastname)
-@router.get('/{id}/lastname', response_model= CustomerDisplay)
-def get_customer_by_more_filter(id: int, 
-                       lastname: str, 
-                       db: Session = Depends(get_db),
-                       current_customer: CustomerBase = Depends(get_current_customer)           #>>> forWhat: to add Authorization to secure it
-                       ):
-    if not current_customer.id == id:
-        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Not allowed")
-    return db_customer.get_customer_by_more_filter(db, id, lastname)
+# @router.get('/{id}/lastname', response_model= CustomerDisplay)
+# def get_customer_by_more_filter(id: int, 
+#                        lastname: str, 
+#                        db: Session = Depends(get_db),
+#                        current_customer: CustomerBase = Depends(get_current_customer)           #>>> forWhat: to add Authorization to secure it
+#                        ):
+#     if not current_customer.id == id:
+#         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Not allowed")
+#     return db_customer.get_customer_by_more_filter(db, id, lastname)
 
 
 ##> update customers
@@ -82,7 +82,9 @@ def delete_customer(id: int,
 
 
 @router.post('/UploadID')
-def get_upload_id(upload_file: UploadFile = File(...)):
+def get_upload_id(upload_file: UploadFile = File(...),
+                  current_customer: CustomerBase = Depends(get_current_customer)
+                  ):
     path= f"files/{upload_file.filename}"
     with open(path, 'w+b') as buffer:
         shutil.copyfileobj(upload_file.file, buffer)

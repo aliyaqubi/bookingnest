@@ -65,12 +65,12 @@ def get_hotel(db: Session, id: int):
     return hotel
 
 #>>>  Howto: Read/retrieve hotels (get the hotels with more than one filter - here: id & email)
-def get_more_hotel(db: Session, id: int, email: str):
-    hotel = db.query(DbHotel).filter(DbHotel.id == id).filter(DbHotel.email == email).first()
-    if not hotel:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
-            detail= f'Hotel with id {id} or with email {email} not found.') 
-    return hotel
+# def get_more_hotel(db: Session, id: int, email: str):
+#     hotel = db.query(DbHotel).filter(DbHotel.id == id).filter(DbHotel.email == email).first()
+#     if not hotel:
+#         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
+#             detail= f'Hotel with id {id} or with email {email} not found.') 
+#     return hotel
 
 
 ##>>>  BookNest: update hotels
