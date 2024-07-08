@@ -15,9 +15,7 @@ def create_customer(db: Session, request: CustomerBase):   ##>>> Howto: create n
         password = Hash.bcrypt(request.password),
         email = request.email,
         phone = request.phone,   
-        # adress = request.adress,
-        # nationality = request.nationality,
-        # age = request.age
+       
     )
                                    ##> create elements
     db.add(new_customer)           ##> add new user to database 
@@ -45,12 +43,12 @@ def get_customer_by_username(db: Session, username: str):
 
 
 ##> Read/retrieve customers (with more than one filter - here: id & lastname)
-def get_customer_by_more_filter(db: Session, id: int, lastname: str):
-    customer = db.query(DbCustomer).filter(DbCustomer.id == id).filter(DbCustomer.lastname == lastname).first()
-    if not customer:
-       raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
-           detail= f'Customer with id {id} or with lastname {lastname} not found.') 
-    return customer
+# def get_customer_by_more_filter(db: Session, id: int, lastname: str):
+#     customer = db.query(DbCustomer).filter(DbCustomer.id == id).filter(DbCustomer.lastname == lastname).first()
+#     if not customer:
+#        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
+#            detail= f'Customer with id {id} or with lastname {lastname} not found.') 
+#     return customer
 
 ##> update customers
 ##> Note: There are two kinds of updating way:
@@ -71,9 +69,7 @@ def update_customer(db: Session, id: int, request: CustomerBase):
         DbCustomer.password: Hash.bcrypt(request.password),
         DbCustomer.email: request.email,
         DbCustomer.phone: request.phone,  
-        # DbCustomer.adress: request.adress,
-        # DbCustomer.nationality: request.nationality,
-        # DbCustomer.age: request.age
+       
     })
     db.commit()
     return 'ok'
