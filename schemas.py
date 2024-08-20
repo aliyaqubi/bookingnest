@@ -159,7 +159,7 @@ class ArticleHDisplay(BaseModel):
         orm_mode = True
 
 
-##> Block 8: class BookingBase  ===========================================================   
+##> Block 8: class BookingBase  =============================================================   
 
 class BookingBase(BaseModel):
     hotel_name : str
@@ -187,7 +187,7 @@ class BookingDisplay(BaseModel):
 
         
 
-#================================ADMIN=============================================
+#ADMIN=============================================
 
 ##>>> BookNest: class for the 'admin' 
 class admin(BaseModel):

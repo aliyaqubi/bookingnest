@@ -93,15 +93,4 @@
     # })
 
 
-#by Atiq: Hotel owner can upload a Pic of his hotel
-# @router.post('/pics')
-# def get_upload_pic(id:int, upload_file: UploadFile = File(...)):
-#     path= f"files/{upload_file.filename}"
-#     with open(path, 'w+b') as buffer:
-#         shutil.copyfileobj(upload_file.file, buffer)
-#     return{
-#         'id': id,
-#         'filename': path,
-#         'type': upload_file.content_type
-#    }
-     
+
