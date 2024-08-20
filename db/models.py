@@ -19,7 +19,7 @@ class Dbadmin(Base):
     email = Column(String)
     
 
-##   Customer  ===============================================================================
+##   Customer  ==================================================================================
 
 ##>>> BookNest: Customer Model
 class DbCustomer(Base):                 
@@ -48,7 +48,7 @@ class DbArticleC(Base):
     customer = relationship('DbCustomer', back_populates= 'items_c')
 
 
-##   Hotel  ===============================================================================
+##   Hotel  ==================================================================================
 
 ##>>> BookNest: Hotel Model
 class DbHotel(Base):                 
